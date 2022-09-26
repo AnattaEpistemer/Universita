@@ -1,0 +1,75 @@
+# Buone pratiche di programmazione in python
+
+## Python
+
+### Ordinamento di una lista di tuple con una funzione lambda
+
+Input
+
+    o = [('English', 88), ('Science', 90), ('Maths', 97), ('Social sciences', 82)]
+    o.sort(key = lambda x : x[1])
+Output:
+
+    [('Social sciences', 82), ('English', 88), ('Science', 90), ('Maths', 97)]
+
+Perché questo avviene?
+Tramite la funzione .sort(key = xxx) noi andiamo a sottoporre ogni elemento della lista al controllo della funzione in modo da stabilire la posizione di ogni elemento (la lista viene ordinata) così ogni elemento viene passato alla funzione .sort(key = xxx) e quindi ogni tupla verrà passata, poi la funzione ritorna x[1] ovvero il secondo elemento della tupla, ovvero il numero collegato alla materia.
+
+### Non modificare un iterabile se lo iteri con un ciclo for/while
+
+Quando abbiamo un ciclo for/while ed un iterabile di cui vogliamo eliminare gli elementi non possiamo fare una cosa del tipo:
+
+    for x in lista():
+        if(x != 6):
+            del x[]
+
+Questo perché noi modifichiamo un iterabile mentre lo stiamo iterando.
+Cosa succede se lo facciamo? Prendiamo un caso pratico:
+
+Input:
+
+    lista = [1,2,3,4,5,6,7,8,9,10]
+    for x in lista:
+        if x < 5:
+            lista.remove(x)
+    
+    print(lista)
+
+Output:
+
+    [2, 4, 5, 6, 7, 8, 9, 10]
+
+Questo avviene perché quando vediamo l'elemento 1 noi lo eliminiamo e la lista da:
+
+    [1,2,3,4,5,6,7,8,9,10]
+
+Diventa
+
+    [2,3,4,5,6,7,8,9,10]
+
+Quando eliminiamo 1, il contatore del ciclo for passa alla posizione 1 (la seconda della lista, la prima era 0), ma poi quando il ciclo avanza noi andiamo alla posizione 2 (la terza) e quindi il ciclo salta l'elemento 2
+
+La soluzione è iterare non l'iterabile che andiamo a modificare, ma una sua copia:
+
+Input:
+
+    lista = [1,2,3,4,5,6,7,8,9,10]
+
+    for x in lista.copy():
+        if x < 5:
+            lista.remove(x)
+    
+    print(lista)
+
+Output:
+
+    [5, 6, 7, 8, 9, 10]
+
+Oppure potevamo usare la funzione filter:
+
+Input:
+
+    lista = list(filter(lambda x : x >= 5,lista))
+
+Output:
+    [5, 6, 7, 8, 9, 10]
